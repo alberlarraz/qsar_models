@@ -1,9 +1,6 @@
 # qsar_models
 Step by step process to create your own QSAR model from a database
 
-STEP 0/ FROM SMILES TO SDF
-
-
 STEP 1/ MOLECULAR DESCRIPTORS
 
 
