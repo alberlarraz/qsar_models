@@ -2,7 +2,10 @@
 Step by step process to create your own QSAR model from a database
 
 STEP 1/ MOLECULAR DESCRIPTORS
-
+- Cálculo de descriptores moleculares desde 3 librerías diferentes: RDKIT, MORDRED y PADELPY.
+- Primero se compruban los SMILES y se transforman a SMILES canónicos para evitar problemas al calcular los descriptores
+- Transformamos los SMILES en archivos MOL para crear moléculas
+- Calculamos los descriptores. ¡OJO! Mordred suele dar problemas. Padelpy tiene descriptores más interesantes, pero en ocasiones luego es dificil acceder a ellos. RDKIT siempre funciona
 
 STEP 2/ CORRELATION MATRIX
 
