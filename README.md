@@ -12,6 +12,7 @@ STEP 2/ CORRELATION MATRIX
 - Adaptar el excel de input según las indicaciones
 
 STEP 3/ SELECTION OF INDEPENDENT DESCRIPTORS
+- No hay script. Se recomienda hacer de forma manual en excel
 - Los endpoints con un índice de correlación superior al umbral deben ser eliminados hasta que solo queden descriptores independientes entre sí.
 - Este umbral mínimo estará entre 0.5 y 0.9
 - Recomendación para la selección de descriptores:
