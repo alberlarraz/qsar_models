@@ -1,3 +1,4 @@
+#IMPORTACIÓN DE LIBRERÍAS DE PYTHON: RDKIT Y MORDRED PARA EL CÁLCULO DE DESCRIPTORES; PANDAS Y CSV PARA TRABAJAR CON ARCHIVOS.
 from rdkit import Chem
 from rdkit.Chem import Draw
 from rdkit.Chem.Draw import IPythonConsole
@@ -16,46 +17,46 @@ import csv
 dataset = pd.read_csv('Antifungica.csv', delimiter=";")
 print("LECTURA COMPLETA")
 print("Original dataset: ", dataset.shape)
-#print(dataset.head())
 
-#FÓRMULA PARA CAMBIAR A SMILES CANONICOS
+
+#FÓRMULA PARA CAMBIAR A SMILES CANONICOS - EVITAR ERRORES DE FORMATO
 def canonical_smiles(smiles):
     molecules = [Chem.MolFromSmiles(smi) for smi in smiles]
     smiles = [Chem.MolToSmiles(mol) for mol in molecules]
     return smiles
 
-#TRANSFORMAMOS NUESTROS SMILES EN SMILES CANONICOS
+#TRANSFORMAMOS NUESTROS SMILES EN SMILES CANONICOS 
 Canon_SMILES = canonical_smiles(dataset.SMILES)
 dataset['Smiles'] = Canon_SMILES
 print("CANONICAL SMILES CALCULADOS")
 print("Canonical SMILES dataset: ", dataset.shape)
 
-'''
+
 #ELIMINAMOS VALORES DUPLICADOS POR SI ACASO
 duplicates_smiles = dataset[dataset['SMILES'].duplicated()]['SMILES'].values
 print("DUPLICADOS EN LA DATABASE ELIMINADOS")
 print("Number of duplicates: ", len(duplicates_smiles))
 dataset_new = dataset.drop_duplicates(subset=['SMILES'])
 print("Number of compounds on the new database: ", len(dataset_new))
-'''
 
+#TRANSFORMAMOS SMILES EN MOLECULAS
 mols = [Chem.MolFromSmiles(smi) for smi in Canon_SMILES]
 
 print("CALCULANDO DESCRIPTORES....")
 
-#CÁLCULO DESCRIPTORES PADEL
+#CÁLCULO DESCRIPTORES PADEL (DESDE SMILES)
 calc_padel = from_smiles(Canon_SMILES, output_csv='padel_descriptors.csv')
 
 print("PadelPy: OK")
 
-#CÁLCULO DESCRIPTORES MORDRED
+#CÁLCULO DESCRIPTORES MORDRED (DESDE MOLECULAS)
 calc_mordred = Calculator(descriptors, ignore_3D=True)
 df_mordred_desc = calc_mordred.pd(mols)
-df_mordred_desc.to_csv("SMILES_new.csv", index=False)
+df_mordred_desc.to_csv("mordred.csv", index=False)
 
 print("Mordred: OK")
 
-#CÁLCULO DESCRIPTORES RDKIT
+#CÁLCULO DESCRIPTORES RDKIT (DESDE MOLÉCULAS)
 calc_rdkit = MoleculeDescriptors.MolecularDescriptorCalculator([x[0] for x in Descriptors._descList])
 desc_names = calc_rdkit.GetDescriptorNames()
 mol_descriptors = []
@@ -66,9 +67,9 @@ for mol in mols:
     rd_descriptors = calc_rdkit.CalcDescriptors(molH)
     mol_descriptors.append(rd_descriptors)
 
-print("RDKit: OK")
-
 df_with_rdkit_descriptors = pd.DataFrame(mol_descriptors,columns=desc_names)
 df_with_rdkit_descriptors.to_csv("rdkit.csv", index=False)
+
+print("RDKit: OK")
 
 print("ARCHIVOS CREADOs Y FINALIZADOs")
