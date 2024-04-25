@@ -23,12 +23,32 @@ STEP 3/ SELECTION OF INDEPENDENT DESCRIPTORS
               *Criterio 3: Se recomienda hacer selecciones diferentes para probar en los pasos posteriores.
 
 STEP 4/ CLUSTER ANALYSIS
-
+- Una vez hechas las seleciones de los descriptores, se seleccionan las columnas de la hoja de excel no elegidas para eliminarlas.
+- Se deben escribir los descriptores elegidos en la lista data_alergenos_numeric.
+- Se debe elegir los parámetros de clusterización: Tipo de distancia y de método de enlace (Recomendación: Euclidean+Complete)
+- Este paso tiene dos objetivos: Eliminación de outliers debido a estar muy separados del resto del dominio de aplicabilidad & Poder separar en test set y training set de manera homogénea
 
 STEP 5/ TRAINING SET VS TEST SET
-
+- El excel creado en el paso 4 "data_alergenos_numeric" selecciona un número de cluster para cada compuesto.
+- La división test set/training set debe estar entorno al 20-30/80-70%. Por ello, esta división debe estar hecha dentro de cada uno de los clusters.
+- Para ello, se asigna un número aleatorio mediante la función random de excel entre 0-1. Test set < 0.2-0.3 < Training Set (Debe asegurarse de que el cómputo global cumple este reparto)
 
 STEP 6/ FITTING ALGORTITHMS
-
+- Este script contiene un algoritmo de regresión lineal múltiple en combinación con un algoritmo genético para seleccionar la mejor combinación:
+          · 1/ Se importan los datos desde un excel con el training set y otro con el test set
+          · 2/ Se indican los descriptores elegidos en el paso 3
+          · 3/ Normalización de los datos. Todos los descriptores deben estar en los mismos rangos (0-1) para tener el mismo peso.
+          · 4/ COMIENZA EL ALGORITMO GENÉTICO:
+                  *individual_size = ¿De cuantos endpoints va a consistir mi modelo?
+                  *population_size = Número inicial de combinaciones aleatorias
+                  *selection_percentage = Me quedo con las mejores para el siguiente paso (Cuantas?)
+                  *selection_size = Numero de combinaciones que continuan
+                  *max_generations = ¿Cuantas veces voy a hacer esto? -> Hay un momento en el que ya apenas mejora
+                  *probability_of_individual_mutating = ¿Cuantas combinaciones van a mutarse?
+                  *probability_of_gene_mutating = Descriptores mutados dentro de cada selección
+                  *initial_population = Numero de combinaciones iniciales
+                  *Clasificación según cross_val_score
+                  *COMBINACIONES DE DESCRIPTORES -> HACEMOS CON TODAS EL MLR MODEL -> NOS QUEDAMOS CON LAS MEJORES -> LAS RECOMBINAMOS -> MUTAMOS UNAS CUANTAS -> VUELTA A EMPEZAR
+          · 5 / Máximo de generaciones: Clasificamos y da los mejores 10 resultados
 
 STEP 7/ REPRESENTATION 
