@@ -1,3 +1,4 @@
+#IMPORTAR LIBRERÍAS
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
@@ -9,6 +10,7 @@ from numpy import array, dot, mean
 from numpy.linalg import pinv
 from sys import exit
 
+#REGRESIÓN LINEAL MÚLTIPLE
 def multiple_linear_regression(sel_desc):
     """
     Perform MLR model, calculating R2, coefficients and interception.
@@ -26,6 +28,7 @@ def multiple_linear_regression(sel_desc):
     cv_error = -cross_val_score(model, inputs, outputs, scoring='neg_mean_squared_error').mean()
     return {"R2": r_sq, "Intercept": intercept, "Coefficients": coefficients, "Selection": sel_desc, "Cross_Val": cv_error, "Predictibilidad": ad_r_sq}
 
+#FUNCIONES DEL ALGORITMO GENÉTICO
 def create_individual(individual_size):
     """
     Create an individual: The function chooses randomly "individual_size" descriptors from the descriptor list.
@@ -79,7 +82,6 @@ def crossover(parent_1, parent_2):
     child.update({key: value for (key, value) in chromosome_2})
     return [child[i] for i in loci]
 
-
 def mutate(individual):
     """
     Mutate an individual.
@@ -96,7 +98,6 @@ def mutate(individual):
         mutation = sample(desc_to_mutation, no_of_genes_mutated)
         individual[locus] = mutation[count]
     return individual
-
 
 def get_new_generation(selected_individuals):
     """
@@ -154,9 +155,9 @@ std_zscore = pd.DataFrame(std_dict, index=[0])
 #GA-MLR
 top10 = []
 
-individual_size = 9
-population_size = 10000
-selection_percentage = 0.20
+individual_size = 9 #Número de descriptores
+population_size = 10000 #Número de combinaciones
+selection_percentage = 0.20 #Porcentaje de combinaciones susceptibles de mutación
 selection_size = floor(selection_percentage*population_size)
 max_generations = 15
 probability_of_individual_mutating = 0.20
