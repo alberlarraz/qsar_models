@@ -15,6 +15,7 @@ def multiple_linear_regression(sel_desc):
     """
     Perform MLR model, calculating R2, coefficients and interception.
     """
+    #Cambiar el nombre del archivo de data_training
     inputs = (data_training[list(sel_desc)].astype(float)).values.tolist()
     #outputs = data_training["MeanValue"].values.tolist()
     outputs = data_training["log(EC3)"].values.tolist()
@@ -157,17 +158,17 @@ top10 = []
 
 individual_size = 9 #Número de descriptores
 population_size = 10000 #Número de combinaciones
-selection_percentage = 0.20 #Porcentaje de combinaciones susceptibles de mutación
-selection_size = floor(selection_percentage*population_size)
-max_generations = 15
-probability_of_individual_mutating = 0.20
-probability_of_gene_mutating = 3/9
-initial_population = create_population(individual_size, 50000)
+selection_percentage = 0.20 #Porcentaje de combinaciones para recombinar
+selection_size = floor(selection_percentage*population_size) #Combinaciones que pasan a la siguiente fase
+max_generations = 15 #Máximo de iteraciones
+probability_of_individual_mutating = 0.20 #Probabilidad de combinaciones susceptibles a mutación
+probability_of_gene_mutating = 3/9 #Descriptores mutados dentro de cada selección
+initial_population = create_population(individual_size, 50000) Nueva población
 current_population = initial_population
 generation_count = 0
 print("Starting Genetic Algorithm")
 
-
+#Nos da las 10 mejores (criterio a verificar en la definición de la función)
 while generation_count <= max_generations:
     print('Generation: ', generation_count, " OF ", max_generations)
     best_individuals = evaluate_population(current_population)
