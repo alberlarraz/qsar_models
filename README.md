@@ -52,3 +52,7 @@ STEP 6/ FITTING ALGORTITHMS
           · 5 / Máximo de generaciones: Clasificamos y da los mejores 10 resultados
 
 STEP 7/ REPRESENTATION 
+- Selección de los descriptores con mejor resultado en el paso anterior
+- Input data: Training set
+- Hace de nuevo el MLR y te lo representa, dandote los estadísticos
+- Una vez hecho esto habría que representar el test_set, para comprobar la calidad de la validación externa
